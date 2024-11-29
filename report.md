@@ -113,18 +113,12 @@ ss -tuln | grep -E ':443|:9001'
 
 to check whether those port is opening or not.
 
-```
 edit file: /etc/rsyslog.conf to open collect log at port 9001
+
 ![](images/img15.png)
-
-```
-
 firewall@forwarder:/var/log$ tail -n 10 syslog
 
-```
 use this to see newest log
-
-
 
 ## Setup pfsense
 
@@ -142,10 +136,57 @@ use this to see newest log
 - Edit pfsense intergration.
   ![](images/img11.png)
 
+## Rules detection in some usecases
+
+1. Detect clearing Windows log.
+
+![](./images/img16.png)
+
+> Result:
+> ![](./images/img17.png)
+
+Set the rule so that it will alert when event.log = "1102"
+![](./images/img18.png)
+
+2. Detect adding new user.
+
+- In Windows.
+  Set rule to detect event ID :
+  ![](./images/pig19.png)
+
+> Result:
+> ![](./images/img22.png)
+
+- In Linux.
+  ![](./images/pig20.png)
+  Set rule to detect log from `auth.log` file with message : "group added"
+  > Result:
+  > ![](./images/pig21.png)
+
+3. Detect login as administrator.
+
+- In linux
+  - Setup the custom query: `log.file.path :"/var/log/auth.log" and message : "user root" and message : "opened" `
+
+> Result:
+> ![](./images/img22.png)
+
+- In Windows:
+  - Setup the custom query: `   event.code : "4672" and message : "Special privileges assigned to new logon"`
+
+4. Detect suspicous outbound traffic.
+
+- Setup the custom query: `network.protocol :"tls" `
+  > Result:
+  > ![](./images/pic23.png)
+
+5. Monitor for activities such as brute force by login by malware.
+
+-
+
 ## Some good reference.
 
 1. https://discuss.elastic.co/t/new-install-error-setting-certificate-verify-locations/307455
 2. https://www.elastic.co/guide/en/elastic-stack/8.13/installing-stack-demo-self.html#install-stack-self-elasticsearch-first
 3. PFSENSE - ELASTIC: https://www.elastic.co/docs/current/integrations/pfsense
 4.
-```
