@@ -148,6 +148,14 @@ use this to see newest log
 Set the rule so that it will alert when event.log = "1102"
 ![](./images/img18.png)
 
+- Detect clearing **Linux** logs.
+  Set the KQL query as: `process.name: "rm" and process.args: ("-rf" or "-f" or "/var/log" or "*.log") `
+
+![](./images/img22.png)
+
+> Result:
+> ![](./images/pic23.png)
+
 2. Detect adding new user.
 
 - In Windows.
@@ -174,6 +182,9 @@ Set the rule so that it will alert when event.log = "1102"
 - In Windows:
   - Setup the custom query: `   event.code : "4672" and message : "Special privileges assigned to new logon"`
 
+> Result:
+> ![](./images/pig24.png)
+
 4. Detect suspicous outbound traffic.
 
 - Setup the custom query: `network.protocol :"tls" `
@@ -182,7 +193,11 @@ Set the rule so that it will alert when event.log = "1102"
 
 5. Monitor for activities such as brute force by login by malware.
 
--
+- Set the query: `log.file.path :"/var/log/auth.log" and message : "user root" and message : "opened" `
+
+![](./images/pic25.png)
+
+This alert will be triggered when there are more than 5 login attemp, here we cannot set during any time period due to lack of license.
 
 ## Some good reference.
 
