@@ -303,6 +303,7 @@ http.host: 0.0.0.0
 transport.host: 0.0.0.0
 ```
 ![](./images/pic33.png)
+Note that the node2 [duyanh1] connected to [{duyanhserver}], it indicates that the second node is added to the cluster successfully.
 
 ## Some good reference.
 
